@@ -1,0 +1,36 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* Shared type tokens used across the brand pages.
+     The hashed family names come from next/font; we alias them so the
+     ported inline styles can refer to "sans"/"serif" via these vars. */
+  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Per-page selection colors, matching each source design. */
+.theme-identity ::selection {
+  background: oklch(0.52 0.13 330);
+  color: #fff;
+}
+
+.theme-board ::selection {
+  background: #211f1c;
+  color: #fafaf8;
+}
+
+a {
+  color: inherit;
+}
