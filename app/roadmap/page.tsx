@@ -400,6 +400,7 @@ const STORAGE_KEY = "aanka-roadmap-v2";
 export default function RoadmapPage() {
   const [done, setDone] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     try {
@@ -409,6 +410,11 @@ export default function RoadmapPage() {
       /* ignore corrupt storage */
     }
     setLoaded(true);
+
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
@@ -432,8 +438,8 @@ export default function RoadmapPage() {
       }}
     >
       {/* ============ HERO ============ */}
-      <div style={{ background: INK, color: CREAM, padding: "72px 56px 64px" }}>
-        <div style={{ maxWidth: 940, margin: "0 auto" }}>
+      <div style={{ background: INK, color: CREAM, padding: isMobile ? "40px 20px 48px" : "72px 56px 64px" }}>
+        <div style={{ maxWidth: 940, margin: "0 auto", padding: isMobile ? "0 8px" : "0" }}>
           <div
             style={{
               display: "flex",
@@ -449,9 +455,9 @@ export default function RoadmapPage() {
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.62 0.16 330)", display: "inline-block" }} />
             THE BUILD JOURNEY · v2
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 32 }}>
-            <AankaMark size={56} stroke="oklch(0.7 0.16 330)" dot={GOLD} />
-            <div style={{ fontWeight: 600, fontSize: 58, letterSpacing: "-0.035em", lineHeight: 0.9 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 12 : 20, marginBottom: 32, flexWrap: "wrap" }}>
+            <AankaMark size={isMobile ? 40 : 56} stroke="oklch(0.7 0.16 330)" dot={GOLD} />
+            <div style={{ fontWeight: 600, fontSize: isMobile ? 36 : 58, letterSpacing: "-0.035em", lineHeight: 0.9 }}>
               Aanka<span style={{ color: GOLD }}>.</span>
             </div>
           </div>
@@ -460,7 +466,7 @@ export default function RoadmapPage() {
               fontFamily: SERIF,
               fontWeight: 400,
               fontStyle: "italic",
-              fontSize: 38,
+              fontSize: isMobile ? 24 : 38,
               lineHeight: 1.15,
               margin: "0 0 20px",
               color: CREAM,
@@ -502,16 +508,16 @@ export default function RoadmapPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 940, margin: "0 auto", padding: "56px 56px 110px" }}>
+      <div style={{ maxWidth: 940, margin: "0 auto", padding: isMobile ? "32px 16px 60px" : "56px 56px 110px" }}>
         {/* ============ HOW TO USE — learning mode ============ */}
-        <Card accent={GOLD} eyebrow="HOW TO USE THIS — LEARNING MODE">
+        <Card accent={GOLD} eyebrow="HOW TO USE THIS — LEARNING MODE" isMobile={isMobile}>
           <h2 style={h2Style}>Claude Code is the tutor. You hold the keyboard.</h2>
           <p style={pStyle}>
             The rule for this whole journey:{" "}
             <strong style={{ color: INK }}>you write the code, you make the design calls.</strong>{" "}
             When you&apos;re stuck, ask Claude Code to <em>explain</em>, not to <em>do</em>.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 6 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginTop: 6 }}>
             <MiniBox tone="good" title="Ask like this">
               &ldquo;Explain how Twilio signs webhook requests so I can verify them — don&apos;t write
               the code, I want to try first.&rdquo;
@@ -531,7 +537,7 @@ export default function RoadmapPage() {
         </Card>
 
         {/* ============ THE SEPARATION PRINCIPLE ============ */}
-        <Card accent={GROWTH} eyebrow="FOUNDING PRINCIPLE — AANKA STANDS ALONE">
+        <Card accent={GROWTH} eyebrow="FOUNDING PRINCIPLE — AANKA STANDS ALONE" isMobile={isMobile}>
           <h2 style={h2Style}>SalonOS is an optional connector, never a requirement.</h2>
           <p style={pStyle}>
             Your market is 8M salons — and most will never run software. So Aanka&apos;s spine is its{" "}
@@ -541,11 +547,11 @@ export default function RoadmapPage() {
             tables with deeper data. The report and chatbot read only Aanka&apos;s model and never
             know where a number came from.
           </p>
-          <ConnectorFlow />
+          <ConnectorFlow isMobile={isMobile} />
           <p style={{ ...pStyle, margin: "20px 0 14px" }}>
             <strong style={{ color: INK }}>Two databases, clear roles:</strong>
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginBottom: 20 }}>
             <RepoBox
               name="Supabase"
               tag="Aanka's own data · read+write"
@@ -564,13 +570,13 @@ export default function RoadmapPage() {
             <code style={codeStyle}>NULL</code> = a standalone Aanka customer with no software. Most of
             your customers will be exactly that.
           </p>
-          <RoutingTable />
+          <RoutingTable isMobile={isMobile} />
         </Card>
 
         {/* ============ REPO + DEPLOY ============ */}
-        <Card accent={PLUM} eyebrow="REPOS & DEPLOY — WHERE THE CODE LIVES">
+        <Card accent={PLUM} eyebrow="REPOS & DEPLOY — WHERE THE CODE LIVES" isMobile={isMobile}>
           <h2 style={h2Style}>Two repos. aanka-api deploys onto the VPS.</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, margin: "8px 0 18px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, margin: "8px 0 18px" }}>
             <RepoBox
               name="aanka  (this repo)"
               tag="Next.js · brand + this roadmap"
@@ -604,8 +610,8 @@ export default function RoadmapPage() {
           const phaseDone = phase.tasks.filter((t) => done[t.id]).length;
           return (
             <section key={phase.id} style={{ marginTop: 56 }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 20, marginBottom: 8 }}>
-                <div style={{ fontFamily: SERIF, fontSize: 52, lineHeight: 1, color: phase.accent, fontStyle: "italic", minWidth: 64 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: isMobile ? 12 : 20, marginBottom: 8, flexWrap: "wrap" }}>
+                <div style={{ fontFamily: SERIF, fontSize: isMobile ? 36 : 52, lineHeight: 1, color: phase.accent, fontStyle: "italic", minWidth: isMobile ? 48 : 64 }}>
                   {phase.num}
                 </div>
                 <div style={{ flex: 1 }}>
@@ -686,14 +692,14 @@ const codeStyle: React.CSSProperties = {
 /*  Components                                                         */
 /* ------------------------------------------------------------------ */
 
-function Card({ accent, eyebrow, children }: { accent: string; eyebrow: string; children: React.ReactNode }) {
+function Card({ accent, eyebrow, children, isMobile }: { accent: string; eyebrow: string; children: React.ReactNode; isMobile: boolean }) {
   return (
     <div
       style={{
         background: "#fff",
         border: "1px solid rgba(0,0,0,0.07)",
         borderRadius: 20,
-        padding: "32px 36px",
+        padding: isMobile ? "24px 18px" : "32px 36px",
         marginBottom: 20,
         borderTop: `3px solid ${accent}`,
       }}
@@ -705,7 +711,7 @@ function Card({ accent, eyebrow, children }: { accent: string; eyebrow: string; 
 }
 
 /** The connector model: two sources → Aanka's model → outputs. */
-function ConnectorFlow() {
+function ConnectorFlow({ isMobile }: { isMobile: boolean }) {
   const Box = ({ bg, border, label, sub, color = INK }: { bg: string; border: string; label: string; sub: string; color?: string }) => (
     <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: 12, padding: "12px 14px", width: "100%" }}>
       <div style={{ fontSize: 13.5, fontWeight: 600, color }}>{label}</div>
@@ -723,10 +729,10 @@ function ConnectorFlow() {
         background: "oklch(0.98 0.005 320)",
         border: "1px solid rgba(0,0,0,0.07)",
         borderRadius: 16,
-        padding: "22px 20px",
-        display: "grid",
-        gridTemplateColumns: "1.15fr auto 1.2fr auto 1fr",
-        gap: 10,
+        padding: isMobile ? "16px 12px" : "22px 20px",
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        gap: isMobile ? 8 : 10,
         alignItems: "center",
         margin: "4px 0 4px",
       }}
@@ -758,7 +764,7 @@ function ConnectorFlow() {
 }
 
 /** The salons routing table. */
-function RoutingTable() {
+function RoutingTable({ isMobile }: { isMobile: boolean }) {
   const rows = [
     ["data_source", "manual", "salonos"],
     ["central_store_id", "NULL", "andheri / bandra"],
@@ -767,7 +773,7 @@ function RoutingTable() {
   ];
   return (
     <div style={{ overflow: "hidden", borderRadius: 12, border: "1px solid rgba(0,0,0,0.09)" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr 1.3fr", background: "oklch(0.97 0.01 320)", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: MUTE }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.1fr 1fr 1.3fr", background: "oklch(0.97 0.01 320)", fontSize: isMobile ? 10 : 11, fontWeight: 700, letterSpacing: "0.06em", color: MUTE }}>
         <div style={{ padding: "10px 14px" }}>SALONS COLUMN</div>
         <div style={{ padding: "10px 14px", color: GROWTH }}>STANDALONE</div>
         <div style={{ padding: "10px 14px", color: GOLD }}>WITH SALONOS</div>
@@ -776,16 +782,23 @@ function RoutingTable() {
         <div
           key={r[0]}
           style={{
-            display: "grid",
+            display: isMobile ? "block" : "grid",
             gridTemplateColumns: "1.1fr 1fr 1.3fr",
-            fontSize: 13,
+            fontSize: isMobile ? 12 : 13,
             borderTop: "1px solid rgba(0,0,0,0.06)",
             background: i % 2 ? "#fff" : "oklch(0.99 0.003 320)",
+            padding: isMobile ? "12px 14px" : "0",
           }}
         >
-          <div style={{ padding: "10px 14px", fontFamily: MONO, fontSize: 12, color: INK }}>{r[0]}</div>
-          <div style={{ padding: "10px 14px", color: BODY }}>{r[1]}</div>
-          <div style={{ padding: "10px 14px", color: BODY }}>{r[2]}</div>
+          <div style={{ padding: isMobile ? "0 0 8px 0" : "10px 14px", fontFamily: MONO, fontSize: 12, color: INK, fontWeight: isMobile ? 600 : 400 }}>{r[0]}</div>
+          <div style={{ padding: isMobile ? "0 0 4px 0" : "10px 14px", color: BODY }}>
+            {isMobile && <span style={{ fontWeight: 600, marginRight: 4 }}>Standalone:</span>}
+            {r[1]}
+          </div>
+          <div style={{ padding: isMobile ? "0" : "10px 14px", color: BODY, marginTop: isMobile ? 4 : 0 }}>
+            {isMobile && <span style={{ fontWeight: 600, marginRight: 4 }}>SalonOS:</span>}
+            {r[2]}
+          </div>
         </div>
       ))}
     </div>
