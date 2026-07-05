@@ -3,8 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AankaMark } from "@/components/AankaMark";
+import { AuthUI } from "@/components/AuthUI";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useResponsiveStyles } from "@/hooks/useResponsiveStyles";
+import { useRoadmapSync } from "@/hooks/useRoadmapSync";
 
 const SANS = "var(--font-sans)";
 const SERIF = "var(--font-serif)";
@@ -405,19 +407,13 @@ export default function RoadmapPage() {
   const { isMobile } = useResponsive();
   const styles = useResponsiveStyles();
 
+  // Initialize loaded state
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setDone(JSON.parse(raw));
-    } catch {
-      /* ignore corrupt storage */
-    }
     setLoaded(true);
   }, []);
 
-  useEffect(() => {
-    if (loaded) localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
-  }, [done, loaded]);
+  // Use the sync hook for cross-device sync
+  useRoadmapSync(done, setDone, loaded);
 
   const toggle = (id: string) => setDone((d) => ({ ...d, [id]: !d[id] }));
 
@@ -442,16 +438,27 @@ export default function RoadmapPage() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 11,
+              justifyContent: "space-between",
               marginBottom: 44,
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: "0.18em",
-              color: "oklch(0.78 0.1 330)",
+              flexWrap: "wrap",
+              gap: 16,
             }}
           >
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.62 0.16 330)", display: "inline-block" }} />
-            THE BUILD JOURNEY · v2
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 11,
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: "0.18em",
+                color: "oklch(0.78 0.1 330)",
+              }}
+            >
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.62 0.16 330)", display: "inline-block" }} />
+              THE BUILD JOURNEY · v2
+            </div>
+            <AuthUI />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 12 : 20, marginBottom: 32, flexWrap: "wrap" }}>
             <AankaMark size={isMobile ? 40 : 56} stroke="oklch(0.7 0.16 330)" dot={GOLD} />
