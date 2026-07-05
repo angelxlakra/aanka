@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useResponsive } from "@/hooks/useResponsive";
 
 const SANS = "var(--font-sans)";
 const SERIF = "var(--font-serif)";
@@ -65,6 +66,7 @@ const SWITCHES: { id: KurukhId; label: string }[] = [
 ];
 
 export default function FinalistsPage() {
+  const { isMobile } = useResponsive();
   const [sel, setSel] = useState<KurukhId>("biri");
   const k = KURUKH[sel];
 
@@ -79,7 +81,7 @@ export default function FinalistsPage() {
         WebkitFontSmoothing: "antialiased",
       }}
     >
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "64px 28px 110px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: isMobile ? "32px 16px 60px" : "64px 28px 110px" }}>
         {/* HERO */}
         <div
           style={{
@@ -203,7 +205,7 @@ export default function FinalistsPage() {
             style={{
               padding: "40px 48px",
               display: "grid",
-              gridTemplateColumns: "1.25fr 1fr",
+              gridTemplateColumns: isMobile ? "1fr" : "1.25fr 1fr",
               gap: 48,
             }}
           >
@@ -406,7 +408,7 @@ export default function FinalistsPage() {
             style={{
               padding: "40px 48px",
               display: "grid",
-              gridTemplateColumns: "1.25fr 1fr",
+              gridTemplateColumns: isMobile ? "1fr" : "1.25fr 1fr",
               gap: 48,
             }}
           >
@@ -680,7 +682,7 @@ export default function FinalistsPage() {
             style={{
               padding: "40px 48px",
               display: "grid",
-              gridTemplateColumns: "1.25fr 1fr",
+              gridTemplateColumns: isMobile ? "1fr" : "1.25fr 1fr",
               gap: 48,
             }}
           >

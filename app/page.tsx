@@ -1,10 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { AankaMark } from "@/components/AankaMark";
+import { useResponsive } from "@/hooks/useResponsive";
 
 const SANS = "var(--font-sans)";
 const SERIF = "var(--font-serif)";
 
 export default function BrandIdentityPage() {
+  const { isMobile } = useResponsive();
   return (
     <div
       className="theme-identity"
@@ -17,8 +21,8 @@ export default function BrandIdentityPage() {
       }}
     >
       {/* ============ HERO ============ */}
-      <div style={{ background: "#1B1A22", color: "#FAF7F2", padding: "80px 56px 72px" }}>
-        <div style={{ maxWidth: 1040, margin: "0 auto" }}>
+      <div style={{ background: "#1B1A22", color: "#FAF7F2", padding: isMobile ? "40px 20px 48px" : "80px 56px 72px" }}>
+        <div style={{ maxWidth: 1040, margin: "0 auto", padding: isMobile ? "0 8px" : "0" }}>
           <div
             style={{
               display: "flex",
@@ -42,13 +46,13 @@ export default function BrandIdentityPage() {
             />
             BRAND IDENTITY · v1
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 26, marginBottom: 40 }}>
-            <AankaMark size={76} stroke="oklch(0.7 0.16 330)" dot="oklch(0.8 0.16 80)" />
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 12 : 26, marginBottom: 40, flexWrap: "wrap" }}>
+            <AankaMark size={isMobile ? 48 : 76} stroke="oklch(0.7 0.16 330)" dot="oklch(0.8 0.16 80)" />
             <div
               style={{
                 fontFamily: SANS,
                 fontWeight: 600,
-                fontSize: 84,
+                fontSize: isMobile ? 42 : 84,
                 letterSpacing: "-0.035em",
                 lineHeight: 0.9,
               }}
@@ -61,7 +65,7 @@ export default function BrandIdentityPage() {
               fontFamily: SERIF,
               fontWeight: 400,
               fontStyle: "italic",
-              fontSize: 40,
+              fontSize: isMobile ? 24 : 40,
               lineHeight: 1.15,
               margin: "0 0 22px",
               color: "#FAF7F2",
@@ -86,7 +90,7 @@ export default function BrandIdentityPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1040, margin: "0 auto", padding: "72px 56px 110px" }}>
+      <div style={{ maxWidth: 1040, margin: "0 auto", padding: isMobile ? "32px 16px 60px" : "72px 56px 110px" }}>
         {/* ============ 01 THE MARK ============ */}
         <div
           style={{
@@ -127,7 +131,7 @@ export default function BrandIdentityPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
             gap: 24,
             marginBottom: 24,
           }}
@@ -165,7 +169,7 @@ export default function BrandIdentityPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
             gap: 18,
             marginBottom: 64,
           }}
@@ -283,7 +287,7 @@ export default function BrandIdentityPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(5,1fr)",
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(5,1fr)",
             gap: 14,
             marginBottom: 64,
           }}
@@ -339,7 +343,7 @@ export default function BrandIdentityPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
             gap: 24,
             marginBottom: 64,
           }}
@@ -478,7 +482,7 @@ export default function BrandIdentityPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "340px 1fr",
+            gridTemplateColumns: isMobile ? "1fr" : "340px 1fr",
             gap: 40,
             alignItems: "start",
           }}
@@ -671,7 +675,7 @@ export default function BrandIdentityPage() {
           A few places the brand shows up.
         </h2>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.4fr 1fr", gap: 18 }}>
           <div
             style={{
               background: "#1B1A22",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { useResponsive } from "@/hooks/useResponsive";
 
 const SANS = "var(--font-sans)";
 const SERIF = "var(--font-serif)";
@@ -318,6 +319,7 @@ const SECTIONS: Section[] = [
 ];
 
 export default function LookbookPage() {
+  const { isMobile } = useResponsive();
   const [liked, setLiked] = useState<Record<NameId, boolean>>({
     lekha: false,
     munim: false,
@@ -399,7 +401,7 @@ export default function LookbookPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1060, margin: "0 auto", padding: "60px 28px 110px" }}>
+      <div style={{ maxWidth: 1060, margin: "0 auto", padding: isMobile ? "32px 16px 60px" : "60px 28px 110px" }}>
         {/* HERO */}
         <div
           style={{
@@ -506,7 +508,7 @@ export default function LookbookPage() {
                   ? "0 14px 40px rgba(33,31,28,0.18)"
                   : "0 1px 2px rgba(0,0,0,0.03)",
                 display: "grid",
-                gridTemplateColumns: "300px 1fr",
+                gridTemplateColumns: isMobile ? "1fr" : "300px 1fr",
                 gap: 42,
               }}
             >

@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AankaMark } from "@/components/AankaMark";
+import { useResponsive } from "@/hooks/useResponsive";
+import { useResponsiveStyles } from "@/hooks/useResponsiveStyles";
 
 const SANS = "var(--font-sans)";
 const SERIF = "var(--font-serif)";
@@ -400,7 +402,8 @@ const STORAGE_KEY = "aanka-roadmap-v2";
 export default function RoadmapPage() {
   const [done, setDone] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const { isMobile } = useResponsive();
+  const styles = useResponsiveStyles();
 
   useEffect(() => {
     try {
@@ -410,11 +413,6 @@ export default function RoadmapPage() {
       /* ignore corrupt storage */
     }
     setLoaded(true);
-
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
